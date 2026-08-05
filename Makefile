@@ -6,14 +6,14 @@
 #    By: alopez-t <alopez-t@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/03 11:02:58 by alopez-t          #+#    #+#              #
-#    Updated: 2026/06/03 11:03:03 by alopez-t         ###   ########.fr        #
+#    Updated: 2026/08/05 15:29:58 by alopez-t         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 CC		= cc
 CFLAGS		= -Wall -Wextra -Werror -I libft
 NAME		= libftprintf.a
 
-SRCS		= ft_printf.c ft_prints_alpha.c ft_prints_num.c 
+SRCS		= ft_printf.c ft_prints_alpha.c ft_prints_num.c helpers.c
 
 OBJS		= $(SRCS:.c=.o)
 
