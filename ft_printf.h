@@ -6,7 +6,7 @@
 /*   By: alopez-t <alopez-t@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 19:41:12 by alopez-t          #+#    #+#             */
-/*   Updated: 2026/07/25 19:41:15 by alopez-t         ###   ########.fr       */
+/*   Updated: 2026/08/05 15:34:27 by alopez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FT_PRINTF_H
@@ -33,11 +33,23 @@ typedef struct s_flags
 int		ft_printf(char const *str, ...);
 typedef int	(*t_print_func)(va_list, t_flags *);
 void	get_flags(const char *str, int *i, t_flags *flags);
+
+/*
+	Functions for the specifiers
+ */
 int		print_char(va_list args, t_flags *flags);
 int		print_string(va_list args, t_flags *flags);
 int		print_percent(va_list args, t_flags *flags);
 int		print_int(va_list args, t_flags *flags);
 int		print_unsigned(va_list args, t_flags *flags);
 int		print_hex(va_list args, t_flags *flags);
+int		print_pointer(va_list args, t_flags *flags);
+
+/* 	
+	Functions for help
+*/
+
+void	h_print_space(int i);
+void	h_print_str(int len, char *str);
 
 #endif
