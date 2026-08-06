@@ -31,3 +31,21 @@ void	h_print_str(int len, char *str)
 		i++;
 	}
 }
+
+int	h_puthex_recursive(unsigned long n, char *base)
+{
+	int	len;
+
+	len = 0;
+	if (n >= 16)
+	{
+		len += h_puthex_recursive(n / 16, base);
+		len += h_puthex_recursive(n % 16, base);
+	}
+	else
+	{
+		write (1, &base[n], 1);
+		len++;
+	}
+	return (len);
+}

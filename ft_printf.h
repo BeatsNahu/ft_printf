@@ -51,5 +51,6 @@ int		print_pointer(va_list args, t_flags *flags);
 
 void	h_print_space(int i);
 void	h_print_str(int len, char *str);
+int		h_puthex_recursive(unsigned long n, char *base);
 
 #endif

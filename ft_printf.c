@@ -18,6 +18,7 @@ int	execute_conversion(t_flags *flags, va_list args)
 	['c'] = print_char,
 	['s'] = print_string,
 	['%'] = print_percent,
+	['p'] = print_pointer,
 	['d'] = print_int,
 	['i'] = print_int,
 	['u'] = print_unsigned,
