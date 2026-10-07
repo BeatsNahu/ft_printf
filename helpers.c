@@ -11,13 +11,18 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-void	h_print_space(int i)
+int	h_print_chars(int i, char c)
 {
+	int	counter;
+
+	counter = 0
 	while (i > 0)
 	{
-		write (1, " ", 1);
+		write (1, &c, 1);
 		i--;
+		counter++;
 	}
+	return (counter);
 }
 
 void	h_print_str(int len, char *str)
@@ -47,5 +52,36 @@ int	h_puthex_recursive(unsigned long n, char *base)
 		write (1, &base[n], 1);
 		len++;
 	}
+	return (len);
+}
+
+int	print_signe(int n, t_flags *flags)
+{
+	if (flags->plus == 1)
+		h_print_chars(1, '+');
+	else if (flags->space == 1)
+		h_print_chars(1, ' ');
+	else if (n < 0)
+		h_print_chars(1, '-');
+	else
+		return (0);
+	return (1);
+}
+
+int	ft_putnbr(int n)
+{
+	long long	ln;
+	int			len;
+	char		c;
+
+	ln = (long long)n;
+	len = 0;
+	if (n < 0)
+		ln *= -1;
+	if (ln >= 10)
+		len += ft_putnbr(ln / 10);
+	c = (ln % 10) + '0';
+	write (1, &c, 1);
+	len++;
 	return (len);
 }
