@@ -6,7 +6,7 @@
 /*   By: alopez-t <alopez-t@student.42barcelona.    +#+  +:+       +#+        */
 /*      i                                          +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 10:39:36 by alopez-t          #+#    #+#             */
-/*   Updated: 2026/08/03 10:39:37 by alopez-t         ###   ########.fr       */
+/*   Updated: 2026/10/08 16:58:52 by alopez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -34,17 +34,24 @@ int	print_int(va_list args, t_flags *flags)
 
 	num = va_arg(args, int);
 	len_n = get_num_len(num);
-	if (flags->minus == 1)
+	if (flags->zero == 1 && has_prec == 1 || flag->zero == 1 && flags->minus == 1)
 	{
 		flags->zero = 0;
-		total_printed += print_signe(flags);
+		total_printed += h_print_signe(num, flags);
 		if (flags->precision == 1 && flags->precision > len)
 			total_printed += h_print_chars((len_n - flags->precision), '0');
-		ft_putnbr(num);
+		ft_putnbr_fd(num, 1);
 		if (len_n < flags->width)
 			total_printed += h_print_chars((flags->width - total_printed), ' ');
 	}
-	return (len);
+	else
+	{
+		total_printed += h_print_signe(num, flags);
+		if (flags->zero == 1)
+			total_printed += h_print_chars((flags->width - len_n), '0');
+		ft_putnbr_fd(num, 1);
+	}
+	return (total_printed + len_n);
 }
 
 int	print_unsigned(va_list args, t_flags *flags)
