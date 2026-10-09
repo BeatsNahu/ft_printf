@@ -6,7 +6,7 @@
 /*   By: alopez-t <alopez-t@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                 +#+#+#+#+#+   +#+          */
 /*   Created: 2026/08/03 10:39:36 by alopez-t          #+#    #+#             */
-/*   Updated: 2026/10/08 16:58:52 by alopez-t         ###   ########.fr       */
+/*   Updated: 2026/10/09 17:40:19 by alopez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -34,14 +34,6 @@ int	print_int(va_list args, t_flags *flags)
 
 	num = va_arg(args, int);
 	len_n = get_num_len(num);
-<<<<<<< HEAD
-	if (flags->zero == 1 && has_prec == 1 || flag->zero == 1 && flags->minus == 1)
-	{
-		flags->zero = 0;
-		total_printed += h_print_signe(num, flags);
-		if (flags->precision == 1 && flags->precision > len)
-			total_printed += h_print_chars((len_n - flags->precision), '0');
-=======
 	total_printed = len_n;
 	total_printed += flags->precision - total_printed;
 	if (flags->plus || flags->space || num < 0)
@@ -53,21 +45,12 @@ int	print_int(va_list args, t_flags *flags)
 		h_print_signe(flags);
 		if (flags->has_prec == 1 && flags->precision > len_n)
 			total_printed += h_print_chars((flags->precision - len_n), '0');
->>>>>>> 809f84092236eef2918cf9e55b1db41bf06b6d0f
 		ft_putnbr_fd(num, 1);
 		if (len_n < flags->width)
 			total_printed += h_print_chars((flags->width - total_printed), ' ');
 	}
 	else
 	{
-<<<<<<< HEAD
-		total_printed += h_print_signe(num, flags);
-		if (flags->zero == 1)
-			total_printed += h_print_chars((flags->width - len_n), '0');
-		ft_putnbr_fd(num, 1);
-	}
-	return (total_printed + len_n);
-=======
 		if (total_printed < flags->width)
 		{
 			total_printed += h_print_chars((flags->width - total_printed), ' ');
@@ -83,7 +66,6 @@ int	print_int(va_list args, t_flags *flags)
 		ft_putnbr_fd(num, 1);
 	}
 	return (total_printed);
->>>>>>> 809f84092236eef2918cf9e55b1db41bf06b6d0f
 }
 
 int	print_unsigned(va_list args, t_flags *flags)
