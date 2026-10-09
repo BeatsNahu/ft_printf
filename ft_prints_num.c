@@ -6,7 +6,7 @@
 /*   By: alopez-t <alopez-t@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                 +#+#+#+#+#+   +#+          */
 /*   Created: 2026/08/03 10:39:36 by alopez-t          #+#    #+#             */
-/*   Updated: 2026/10/09 17:40:19 by alopez-t         ###   ########.fr       */
+/*   Updated: 2026/10/09 19:10:38 by alopez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -35,7 +35,7 @@ int	print_int(va_list args, t_flags *flags)
 	num = va_arg(args, int);
 	len_n = get_num_len(num);
 	total_printed = len_n;
-	total_printed += flags->precision - total_printed;
+	total_printed += flags->width;
 	if (flags->plus || flags->space || num < 0)
 		total_printed++;
 	if (flags->has_prec == 1 || flags->minus == 1)
@@ -50,21 +50,7 @@ int	print_int(va_list args, t_flags *flags)
 			total_printed += h_print_chars((flags->width - total_printed), ' ');
 	}
 	else
-	{
-		if (total_printed < flags->width)
-		{
-			total_printed += h_print_chars((flags->width - total_printed), ' ');
-			h_print_signe(flags);
-		}
-		else if (flags->has_prec == 1 && flags->precision > len_n)
-		{
-			h_print_signe(flags);
-			total_printed += h_print_chars((flags->precision - len_n), '0');
-		}
-		else if (flags->zero == 1)
-			total_printed += h_print_chars((flags->width - len_n), '0');
-		ft_putnbr_fd(num, 1);
-	}
+		h_printed_num_inverse(total_printed, flags);
 	return (total_printed);
 }
 
@@ -77,14 +63,16 @@ int	print_unsigned(va_list args, t_flags *flags)
 
 int	print_hex(va_list args, t_flags *flags)
 {
-	(void)args;
-	(void)flags;
-	/*
-	if (flags->hash == 1)
-		write (1, "0x", 2);
+	char				*base;
+	unsigned int	num;
+	int	total_printed;
+
+	num = va_arg(args, unsigned long);
+	if (flags->hash == 1 && num != '0')
+		ft_putstr_fd("0x", 1);
 	base = "0123456789abcdef";
 	if (flags->specifier == 'X')
 		base = "0123456789ABCDEF";
-		*/
-	return (0);
+	total_printed += h_puthex_recursive(num, base);
+	return (total_printed);
 }
