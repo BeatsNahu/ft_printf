@@ -55,7 +55,7 @@ int	h_puthex_recursive(unsigned long n, char *base)
 	return (len);
 }
 
-int	print_signe(int n, t_flags *flags)
+void	h_print_signe(t_flags *flags)
 {
 	if (flags->plus == 1)
 		h_print_chars(1, '+');
@@ -63,25 +63,4 @@ int	print_signe(int n, t_flags *flags)
 		h_print_chars(1, ' ');
 	else if (n < 0)
 		h_print_chars(1, '-');
-	else
-		return (0);
-	return (1);
-}
-
-int	ft_putnbr(int n)
-{
-	long long	ln;
-	int			len;
-	char		c;
-
-	ln = (long long)n;
-	len = 0;
-	if (n < 0)
-		ln *= -1;
-	if (ln >= 10)
-		len += ft_putnbr(ln / 10);
-	c = (ln % 10) + '0';
-	write (1, &c, 1);
-	len++;
-	return (len);
 }
