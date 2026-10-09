@@ -55,7 +55,11 @@ int	h_puthex_recursive(unsigned long n, char *base)
 	return (len);
 }
 
+<<<<<<< HEAD
 int	h_print_signe(int n, t_flags *flags)
+=======
+void	h_print_signe(t_flags *flags)
+>>>>>>> 809f84092236eef2918cf9e55b1db41bf06b6d0f
 {
 	if (flags->plus == 1)
 		h_print_chars(1, '+');
@@ -63,7 +67,10 @@ int	h_print_signe(int n, t_flags *flags)
 		h_print_chars(1, ' ');
 	else if (n < 0)
 		h_print_chars(1, '-');
+<<<<<<< HEAD
 	else
 		return (0);
 	return (1);
+=======
+>>>>>>> 809f84092236eef2918cf9e55b1db41bf06b6d0f
 }
