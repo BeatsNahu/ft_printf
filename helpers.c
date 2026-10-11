@@ -37,7 +37,7 @@ void	h_print_str(int len, char *str)
 	}
 }
 
-int	h_puthex_recursive(unsigned int  n, char *base)
+int	h_puthex_recursive(unsigned int n, char *base)
 {
 	int	len;
 
@@ -55,23 +55,26 @@ int	h_puthex_recursive(unsigned int  n, char *base)
 	return (len);
 }
 
-void	h_print_signe(t_flags *flags)
+int	h_print_signe(int num, t_flags *flags)
 {
-	if (flags->plus == 1)
-		h_print_chars(1, '+');
-	else if (flags->space == 1)
-		h_print_chars(1, ' ');
-	else if (n < 0)
-		h_print_chars(1, '-');
+	if (num < 0)
+		return (h_print_chars(1, '-'));
+	else if (flags->plus)
+		return (h_print_chars(1, '+'));
+	else if (flags->space)
+		return (h_print_chars(1, ' '));
+	return (0);
 }
 
-void	h_print_num_inverse(int total_printed, t_flags flags)
+int	h_putnbr_abs(unsigned long n)
 {
-	if (total_printed < flags->width)
-		total_printed += h_print_chars((flags->width - total_printed), ' ');
-	h_print_signe(flags);
-	if (flags->zero == 1)
-		total_printed += h_print_chars((total_printed - flags->width), '0');
-	ft_putnbr_fd(num, 1);
-	return (total_printed);
+	int		len;
+	char	c;
+
+	len = 0;
+	if (n >= 10)
+		len += h_putnbr_abs(n / 10);
+	c = (n % 10) + '0';
+	write(1, &c, 1);
+	return (len + 1);
 }

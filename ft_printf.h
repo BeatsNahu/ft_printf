@@ -49,8 +49,10 @@ int		print_pointer(va_list args, t_flags *flags);
 	Functions for help
 */
 
-void	h_print_space(int i);
+int	h_print_chars(int i, char c);
 void	h_print_str(int len, char *str);
-int		h_puthex_recursive(unsigned long n, char *base);
+int		h_puthex_recursive(unsigned int n, char *base);
+int		h_print_signe(int num, t_flags *flags);
+int		h_putnbr_abs(unsigned long n);
 
 #endif

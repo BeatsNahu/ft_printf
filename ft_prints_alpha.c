@@ -18,13 +18,13 @@ int	print_char(va_list args, t_flags *flags)
 	c = va_arg(args, int);
 	if (flags->minus == 0)
 	{
-		h_print_space(flags->width - 1);
-		write (1, &c, 1);
+		h_print_chars(flags->width - 1, ' ');
+		ft_putchar_fd(c, 1);
 	}
 	else
 	{
-		write (1, &c, 1);
-		h_print_space(flags->width - 1);
+		ft_putchar_fd(c, 1);
+		h_print_chars(flags->width - 1, ' ');
 	}
 	if (flags->width > 0)
 		return (flags->width);
@@ -47,11 +47,11 @@ int	print_string(va_list args, t_flags *flags)
 	if (flags->minus == 1)
 	{
 		h_print_str(len, str);
-		h_print_space(flags->width - len);
+		h_print_chars(flags->width - len, ' ');
 	}
 	else
 	{
-		h_print_space(flags->width - len);
+		h_print_chars(flags->width - len, ' ');
 		h_print_str(len, str);
 	}
 	if (flags->width > len)
@@ -63,7 +63,7 @@ int	print_percent(va_list args, t_flags *flags)
 {
 	(void)args;
 	(void)flags;
-	write (1, "%", 1);
+	ft_putchar_fd('%', 1);
 	return (1);
 }
 
@@ -81,7 +81,7 @@ int	print_pointer(va_list args, t_flags *flags)
 		return (5);
 	}
 	base = "0123456789abcdef";
-	write (1, "0x", 2);
+	ft_putstr_fd("0x", 1);
 	len = 2;
 	len += h_puthex_recursive(ptr, base);
 	return (len);
