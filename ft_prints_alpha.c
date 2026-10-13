@@ -62,8 +62,27 @@ int	print_string(va_list args, t_flags *flags)
 int	print_percent(va_list args, t_flags *flags)
 {
 	(void)args;
-	(void)flags;
-	ft_putchar_fd('%', 1);
+	if (flags->minus)
+		flags->zero = 0;
+	if (flags->minus)
+	{
+		ft_putchar_fd('%', 1);
+		if (flags->width > 1)
+			h_print_chars(flags->width - 1, ' ');
+	}
+	else
+	{
+		if (flags->width > 1)
+		{
+			if (flags->zero)
+				h_print_chars(flags->width - 1, '0');
+			else
+				h_print_chars(flags->width - 1, ' ');
+		}
+		ft_putchar_fd('%', 1);
+	}
+	if (flags->width > 1)
+		return (flags->width);
 	return (1);
 }
 
