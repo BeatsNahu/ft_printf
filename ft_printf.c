@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alopez-t <alopez-t@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/25 19:41:34 by alopez-t          #+#    #+#             */
-/*   Updated: 2026/07/25 19:41:36 by alopez-t         ###   ########.fr       */
+/*   Created: 2026/10/31 14:28:21 by alopez-t          #+#    #+#             */
+/*   Updated: 2026/10/31 14:29:20 by alopez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	execute_conversion(t_flags *flags, va_list args)
 	int							spec;
 
 	spec = flags->specifier;
-	if (spec >= 0 && spec <= 127 && g_dispatch[spec] != NULL)
+	if (spec >= 0 && spec < 127 && g_dispatch[spec] != NULL)
 		return (g_dispatch[spec](args, flags));
 	return (0);
 }

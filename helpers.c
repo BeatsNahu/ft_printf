@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alopez-t <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alopez-t <alopez-t@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/05 15:27:02 by alopez-t          #+#    #+#             */
-/*   Updated: 2026/08/05 15:43:29 by alopez-t         ###   ########.fr       */
+/*   Created: 2026/10/31 14:28:57 by alopez-t          #+#    #+#             */
+/*   Updated: 2026/10/31 14:29:16 by alopez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -15,10 +15,10 @@ int	h_print_chars(int i, char c)
 {
 	int	counter;
 
-	counter = 0
+	counter = 0;
 	while (i > 0)
 	{
-		write (1, &c, 1);
+		write(1, &c, 1);
 		i--;
 		counter++;
 	}
@@ -32,35 +32,56 @@ void	h_print_str(int len, char *str)
 	i = 0;
 	while (i < len)
 	{
-		write (1, &str[i], 1);
+		write(1, &str[i], 1);
 		i++;
 	}
 }
 
-int	h_puthex_recursive(unsigned long n, char *base)
+void	h_putnbr_base(unsigned long n, char *base)
 {
-	int	len;
+	size_t	base_len;
 
-	len = 0;
-	if (n >= 16)
+	base_len = ft_strlen(base);
+	if (n >= base_len)
+		h_putnbr_base(n / base_len, base);
+	write(1, &base[n % base_len], 1);
+}
+
+char	*h_get_prefix(long num, t_flags *flags)
+{
+	if (num < 0)
+		return ("-");
+	else if (flags->plus)
+		return ("+");
+	else if (flags->space)
+		return (" ");
+	else if (flags->hash && num != 0)
 	{
-		len += h_puthex_recursive(n / 16, base);
-		len += h_puthex_recursive(n % 16, base);
+		if (flags->specifier == 'x' || flags->specifier == 'p')
+			return ("0x");
+		else if (flags->specifier == 'X')
+			return ("0X");
 	}
+	return ("");
+}
+
+int	h_get_abs(long n, unsigned long *nb, char *base)
+{
+	unsigned long	tmp;
+	int				len;
+	size_t			base_len;
+
+	if (n < 0)
+		*nb = (unsigned long)(-(n + 1)) + 1;
 	else
+		*nb = (unsigned long)n;
+	tmp = *nb;
+	len = 1;
+	base_len = ft_strlen(base);
+	while (tmp >= base_len)
 	{
-		write (1, &base[n], 1);
+		tmp = tmp / base_len;
 		len++;
 	}
 	return (len);
-}
-
-void	h_print_signe(t_flags *flags)
-{
-	if (flags->plus == 1)
-		h_print_chars(1, '+');
-	else if (flags->space == 1)
-		h_print_chars(1, ' ');
-	else if (n < 0)
-		h_print_chars(1, '-');
 }
