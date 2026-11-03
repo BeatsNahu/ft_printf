@@ -1,126 +1,146 @@
-*Este proyecto ha sido creado como parte del currículo de 42 por alopez-t.*
+*This project has been created as part of the 42 curriculum by alopez-t.*  
+*(Este proyecto ha sido creado como parte del currículo de 42 por alopez-t.)*
 
 # ft_printf
 
-## Descripción
-El proyecto **ft_printf** consiste en reimplementar la función `printf()` de la biblioteca estándar de C (`libc`). El objetivo primordial es aprender a manejar funciones variádicas en C haciendo uso de la cabecera `<stdarg.h>` (`va_start`, `va_arg`, `va_copy`, `va_end`), así como diseñar una arquitectura modular y extensible para el formateo de cadenas y conversiones numéricas en diferentes bases.
+## Description
+The **ft_printf** project consists of recoding the famous `printf()` function from the standard C library (`libc`). The primary objective is to learn how to handle variadic functions in C using `<stdarg.h>` (`va_start`, `va_arg`, `va_copy`, `va_end`), and to design a modular, scalable architecture for formatting and outputting different data types across various numeric bases.
 
-### Especificadores Soportados (Parte Obligatoria)
-| Especificador | Conversión / Descripción |
+### Supported Conversions (Mandatory Part)
+| Specifier | Description |
 | :---: | :--- |
-| `%c` | Imprime un único carácter. |
-| `%s` | Imprime una cadena de caracteres (`char *`). |
-| `%p` | Imprime una dirección de puntero (`void *`) en formato hexadecimal con prefijo `0x`. |
-| `%d` | Imprime un número entero con signo en base 10. |
-| `%i` | Imprime un entero en base 10. |
-| `%u` | Imprime un número decimal sin signo en base 10. |
-| `%x` | Imprime un número hexadecimal sin signo en minúsculas (`0-9`, `a-f`). |
-| `%X` | Imprime un número hexadecimal sin signo en mayúsculas (`0-9`, `A-F`). |
-| `%%` | Imprime el carácter literal del porcentaje. |
+| `%c` | Prints a single character. |
+| `%s` | Prints a string of characters (`char *`). |
+| `%p` | Prints a pointer address (`void *`) in hexadecimal format with a `0x` prefix. |
+| `%d` | Prints a signed decimal integer (base 10). |
+| `%i` | Prints a signed integer in base 10. |
+| `%u` | Prints an unsigned decimal number (base 10). |
+| `%x` | Prints an unsigned hexadecimal number in lowercase (`0-9`, `a-f`). |
+| `%X` | Prints an unsigned hexadecimal number in uppercase (`0-9`, `A-F`). |
+| `%%` | Prints a literal percent sign. |
 
-### Modificadores y Flags (Parte Bonus)
-| Flag / Modificador | Descripción |
+### Flags and Modifiers (Bonus Part)
+| Flag / Modifier | Description |
 | :---: | :--- |
-| `-` | Justificación a la izquierda dentro del ancho mínimo de campo. |
-| `0` | Relleno con ceros a la izquierda en lugar de espacios. |
-| `.` | Precisión: número mínimo de dígitos en conversiones numéricas o longitud máxima en strings. |
-| `#` | Formato alternativo: añade prefijo `0x` o `0X` a números hexadecimales no nulos. |
-| `+` | Fuerza la impresión del signo (`+` o `-`) en conversiones numéricas con signo. |
-| `' '` *(espacio)* | Inserta un espacio previo si el número positivo no lleva signo. |
-| *ancho mínimo* | Ancho de campo mínimo a ocupar en la salida. |
+| `-` | Left-justify output within the minimum field width. |
+| `0` | Zero-pad numbers to the left instead of using spaces. |
+| `.` | Precision: minimum number of digits to print for numbers, or maximum string length. |
+| `#` | Alternate form: prepends `0x` or `0X` to non-zero hexadecimal values. |
+| `+` | Forces a sign (`+` or `-`) to be output for signed numeric conversions. |
+| `' '` *(space)* | Inserts a blank space before positive numbers if no sign is printed. |
+| *field width* | Minimum number of characters to write to the output. |
 
 ---
 
-## Instrucciones
+## Instructions
 
-### Compilación
-El proyecto incluye un `Makefile` compatible con la Norma de 42, con banderas `-Wall -Wextra -Werror` y sin relink:
+### Compilation
+The project includes a Makefile adhering to 42 Norminette standards with `-Wall -Wextra -Werror` flags and strictly preventing relinking:
 
-- **Compilar parte obligatoria:**
+- **Compile mandatory library:**
   ```bash
   make
   ```
-  Genera la librería estática `libftprintf.a`.
+  Generates `libftprintf.a`.
 
-- **Compilar con parte bonus:**
+- **Compile with bonus features:**
   ```bash
   make bonus
   ```
-  Incorpora el manejo de flags y modificadores avanzados en `libftprintf.a`.
+  Generates `libftprintf.a` including full flag and width/precision parsing.
 
-- **Limpiar objetos:**
+- **Clean object files:**
   ```bash
   make clean
   ```
 
-- **Limpiar objetos y librería:**
+- **Full clean (objects and library):**
   ```bash
   make fclean
   ```
 
-- **Recompilar todo:**
+- **Rebuild everything:**
   ```bash
   make re
   ```
 
-### Uso
-Para utilizar la librería en tu propio programa C:
+### Usage
+Include the header in your C source file:
 ```c
 #include "ft_printf.h"
 
 int	main(void)
 {
-	ft_printf("Hola %s, el número es %d y en hex %#x\n", "42", 42, 42);
+	ft_printf("Hello %s, number: %d, hex: %#X\n", "42", 42, 42);
 	return (0);
 }
 ```
-Compilación vinculando `libftprintf.a`:
+Compile linking `libftprintf.a`:
 ```bash
-cc -Wall -Wextra -Werror main.c libftprintf.a -o mi_programa
+cc -Wall -Wextra -Werror main.c libftprintf.a -o my_program
 ```
 
 ---
 
-## Algoritmo y Estructura de Datos
+## Technical Decisions & How It Works
 
-### 1. Tabla de Despacho (Jump Table / Dispatch Table)
-En lugar de encadenar múltiples sentencias condicionales (`if / else if`) para identificar el especificador tras el `%`, se utiliza una **tabla de punteros a función indexada directamente por el código ASCII del especificador**:
+### 1. Sequential Traversal & Flag Parser
+- `ft_printf` iterates sequentially character by character through the format string.
+- Ordinary characters are directly printed to standard output (`write(1, &str[i], 1)`), incrementing the total length counter.
+- Whenever a `%` character is encountered, the conversion process begins:
+  1. The `t_flags` state structure is reset to zero (`ft_bzero`).
+  2. The parser `get_flags` scans forward to identify any combination of flags (`-`, `0`, `#`, ` `, `+`), the minimum field width, and optional precision (`.`).
+  3. The conversion specifier character is saved into `flags->specifier`.
+
+### 2. Function Pointer Dispatch Table (LUT)
+Instead of chaining long `if / else if` conditionals, `ft_printf` uses a **Function Pointer Dispatch Table (Look-Up Table / Jump Table)** indexed directly by the ASCII character value of the specifier:
 ```c
-static const t_print_func g_dispatch[127] = {
-    ['c'] = print_char,
-    ['s'] = print_string,
-    ['%'] = print_percent,
-    ['p'] = print_pointer,
-    ['d'] = print_int,
-    ['i'] = print_int,
-    ['u'] = print_unsigned,
-    ['x'] = print_hex,
-    ['X'] = print_hex
+static const t_print_func	g_dispatch[127] = {
+	['c'] = print_char,
+	['s'] = print_string,
+	['%'] = print_percent,
+	['p'] = print_pointer,
+	['d'] = print_int,
+	['i'] = print_int,
+	['u'] = print_unsigned,
+	['x'] = print_hex,
+	['X'] = print_hex
 };
 ```
-Esto permite una resolución inmediata en tiempo constante $O(1)$, desacoplando completamente la lógica de parseo de la lógica de cada tipo de dato.
+Because all specifier handler functions share the exact same prototype:
+```c
+typedef int (*t_print_func)(va_list, t_flags *);
+```
+Passing the variadic arguments and the parsed flags structure is unified, concise, and allows instant $O(1)$ dispatching.
 
-### 2. Estructura de Flags (`t_flags`)
-La estructura `t_flags` almacena de forma ordenada el estado de la conversión actual (flags activos, ancho, precisión, base numérica y padding calculado), permitiendo transferir el contexto entre funciones de forma limpia y respetando las restricciones de parámetros de la Norminette.
-
-### 3. Motor Centralizado (`print_universal`)
-Todas las conversiones numéricas (`%d`, `%i`, `%u`, `%x`, `%X`, `%p`) convergen en un único motor de renderizado (`print_universal`). Este se encarga de:
-- Imprimir prefijos calculados (`-`, `+`, ` `, `0x`, `0X`).
-- Generar ceros de precisión (`flags->zeros`).
-- Volcar recursivamente los dígitos del número en su base correspondiente sin requerir memoria dinámica adicional en el heap.
-- Rellenar con espacios o ceros de ancho (`flags->pad`) según la justificación derecha o izquierda.
+### 3. Centralized Formatting Engine (`print_universal`)
+All numeric conversions (`%d`, `%i`, `%u`, `%x`, `%X`, `%p`) feed into a shared rendering engine (`print_universal`). This function abstracts:
+- Prefix output (`-`, `+`, ` `, `0x`, `0X`).
+- Precision zero padding (`flags->zeros`).
+- Recursive base output (`h_putnbr_base`) using call-stack recursion without unnecessary heap allocations.
+- Field width space/zero padding (`flags->pad`) aligned according to left/right justification flags.
 
 ---
 
-## Recursos
+## Resources & References
 
-### Referencias
-- Manual de Linux: `man 3 printf`, `man 3 stdarg`.
-- Especificación POSIX / IEEE Std 1003.1 sobre conversiones de formato en `printf`.
-- Documentación de GNU C Library (glibc) sobre format flags y compatibilidad.
+### Literature & Tutorials
+- [Function Pointers | C Programming Tutorial (YouTube)](https://youtu.be/f_uWOWViYc0?si=elAwfmUpGRQcsXeX)
+- [Function Dispatch Tables in C (Alice Goldfuss)](https://blog.alicegoldfuss.com/function-dispatch-tables/)
+- [How arguments are passed to functions in C (YouTube)](https://youtu.be/MCVa1ZhQaqI?si=40p1joCZ-KgSjuvM)
+- [How to create functions with a variable number of arguments using stdarg.h (YouTube)](https://youtu.be/3iX9a_l9W9Y?si=EEFtLdPtGTLfqCYl)
+- [C Tutorial – 45. Variadic Functions (YouTube)](https://youtu.be/yPrOq2Io4D8?si=cdAgFj5nLJUr5MhH)
+- [How Look Up Tables (LUTs) make your code Smaller, Faster, and Better (YouTube)](https://youtu.be/JPPxV3Hdz_A?si=Vmz6zkBcwhn8etnj)
+- [Variable Functions (DigiPen CS120)](https://azrael.digipen.edu/~mmead/www/Courses/CS120/VariadicFunctions.html)
+- [Coddy Tech - printf in C Documentation](https://coddy.tech/docs/es/c/printf)
+- Linux Manual Pages: `man 3 printf`, `man 3 stdarg`.
 
-### Uso de Inteligencia Artificial
-Se ha utilizado asistencia de IA para:
-- Análisis y depuración de edge cases en suites de tests automatizadas (como Francinette y Tripouille printfTester).
-- Corrección de dependencias y reglas en el `Makefile` para garantizar la compatibilidad entre pruebas obligatorias y bonus sin provocar relinks.
-- Consulta de precedencia de flags conflictivas según el estándar POSIX (ej. precedencia de `-` sobre `0`, o desactivación de `0` en presencia de precisión numérica).
+### Testing Tools
+- [Francinette ("paco") Framework by fsoares](https://github.com/xicodomingues/francinette)
+- [Tripouille printfTester](https://github.com/Tripouille/printfTester)
+- [Cacharle ft_printf_test](https://github.com/cacharle/ft_printf_test)
+
+### Use of Artificial Intelligence
+AI was used in an educational and advisory capacity as a **reviewer and tutor**:
+- Providing conceptual explanations of C standard rules and POSIX formatting specifications to stimulate critical thinking and architectural reasoning.
+- Assisting in debugging subtle edge cases in automated tester frameworks (such as diagnosing Makefile relink behavior under Francinette / paco and identifying tester compiler warnings).
