@@ -6,7 +6,7 @@
 /*   By: alopez-t <alopez-t@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 14:28:57 by alopez-t          #+#    #+#             */
-/*   Updated: 2026/10/31 14:29:16 by alopez-t         ###   ########.fr       */
+/*   Updated: 2026/11/03 15:04:33 by alopez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -49,32 +49,29 @@ void	h_putnbr_base(unsigned long n, char *base)
 
 char	*h_get_prefix(long num, t_flags *flags)
 {
-	if (num < 0)
-		return ("-");
-	else if (flags->plus)
-		return ("+");
-	else if (flags->space)
-		return (" ");
-	else if (flags->hash && num != 0)
+	if (flags->hash && num != 0)
 	{
 		if (flags->specifier == 'x' || flags->specifier == 'p')
 			return ("0x");
 		else if (flags->specifier == 'X')
 			return ("0X");
 	}
+	else if (num < 0)
+		return ("-");
+	else if (flags->plus)
+		return ("+");
+	else if (flags->space)
+		return (" ");
 	return ("");
 }
 
-int	h_get_abs(long n, unsigned long *nb, char *base)
+int	h_get_abs(unsigned long n, unsigned long *nb, char *base)
 {
 	unsigned long	tmp;
 	int				len;
 	size_t			base_len;
 
-	if (n < 0)
-		*nb = (unsigned long)(-(n + 1)) + 1;
-	else
-		*nb = (unsigned long)n;
+	*nb = n;
 	tmp = *nb;
 	len = 1;
 	base_len = ft_strlen(base);

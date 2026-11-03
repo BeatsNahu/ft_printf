@@ -30,13 +30,13 @@ OBJS_B		= $(SRCS_B:.c=.o)
 LIBFT_DIR	= libft
 LIBFT		= $(LIBFT_DIR)/libft.a
 
-all: $(LIBFT) $(OBJS_M)
-	rm -f $(NAME)
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(OBJS_M)
 	cp $(LIBFT) $(NAME)
 	ar rcs $(NAME) $(OBJS_M)
 
 bonus: $(LIBFT) $(OBJS_B)
-	rm -f $(NAME)
 	cp $(LIBFT) $(NAME)
 	ar rcs $(NAME) $(OBJS_B)
 
