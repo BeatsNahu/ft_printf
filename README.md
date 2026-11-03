@@ -1,5 +1,4 @@
 *This project has been created as part of the 42 curriculum by alopez-t.*  
-*(Este proyecto ha sido creado como parte del currículo de 42 por alopez-t.)*
 
 # ft_printf
 
