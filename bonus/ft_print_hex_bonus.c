@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_print_hex_bonus.c                               :+:      :+:    :+:   */
-/*                                                    :+:+         :+:     */
-/*   By: alopez-t <alopez-t@student.42barcelona.com> #+  :+:       +#+        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alopez-t <alopez-t@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/31 15:12:55 by alopez-t          #+#    #+#             */
-/*   Updated: 2026/11/03 15:03:27 by alopez-t         ###   ########.fr       */
+/*   Created: 2026/11/06 15:06:41 by alopez-t          #+#    #+#             */
+/*   Updated: 2026/11/06 15:09:02 by alopez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
