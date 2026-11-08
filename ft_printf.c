@@ -6,7 +6,7 @@
 /*   By: alopez-t <alopez-t@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 14:28:21 by alopez-t          #+#    #+#             */
-/*   Updated: 2026/10/31 14:29:20 by alopez-t         ###   ########.fr       */
+/*   Updated: 2026/11/08 18:47:48 by alopez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	parse_flag_char(char c, t_flags *flags)
 void	get_flags(const char *str, int *i, t_flags *flags)
 {
 	(*i)++;
-	while (ft_strchr("-0# +", (int)str[*i]))
+	while (str[*i] && ft_strchr("-0# +", (int)str[*i]))
 		parse_flag_char(str[(*i)++], flags);
 	while (ft_isdigit(str[*i]))
 		flags->width = (flags->width * 10) + (str[(*i)++] - '0');
@@ -61,7 +61,7 @@ void	get_flags(const char *str, int *i, t_flags *flags)
 		while (ft_isdigit(str[*i]))
 			flags->precision = (flags->precision * 10) + (str[(*i)++] - '0');
 	}
-	if (ft_strchr("cspdiuxX%", (int)str[*i]))
+	if (str[*i] && ft_strchr("cspdiuxX%", (int)str[*i]))
 		flags->specifier = str[(*i)++];
 }
 
