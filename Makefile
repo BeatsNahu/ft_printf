@@ -35,10 +35,14 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(OBJS_M)
 	cp $(LIBFT) $(NAME)
 	ar rcs $(NAME) $(OBJS_M)
+	@rm -f .bonus
 
-bonus: $(LIBFT) $(OBJS_B)
+bonus: .bonus
+
+.bonus: $(LIBFT) $(OBJS_B)
 	cp $(LIBFT) $(NAME)
 	ar rcs $(NAME) $(OBJS_B)
+	@touch .bonus
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -47,11 +51,11 @@ $(LIBFT):
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS_M) $(OBJS_B)
+	rm -f $(OBJS_M) $(OBJS_B) .bonus
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) .bonus
 	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: alopez-t <alopez-t@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 14:28:37 by alopez-t          #+#    #+#             */
-/*   Updated: 2026/11/03 16:16:55 by alopez-t         ###   ########.fr       */
+/*   Updated: 2026/11/10 22:47:29 by alopez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_PRINTF_H
 
 /*		Local librerie						*/
-# include "libft.h"
+# include "./libft/libft.h"
 
 /*		Libreries							*/
 # include <stdarg.h>
